@@ -45,7 +45,7 @@ export class News extends Component {
       });
       this.setState({
         page: this.state.page + 1,
-      });N
+      });
     }
   };
 
