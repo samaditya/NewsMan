@@ -11,7 +11,7 @@ export default class App extends Component {
       <div>
       <ErrorBoundary>
         <Navbar/>
-        <News/>
+        <News pageSize={6}/>
       </ErrorBoundary>
       </div>
     )
