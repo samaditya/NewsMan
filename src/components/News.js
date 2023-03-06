@@ -4,6 +4,8 @@ import Spinner from "./Spinner";
 import PropTypes from "prop-types";
 import InfiniteScroll from "react-infinite-scroll-component";
 
+
+
 export class News extends Component {
   static defaultProps = {
     country: "in",
@@ -29,9 +31,10 @@ export class News extends Component {
   }
 
   async updateNews() {
+    this.props.setProgress(10);
     this.setState({ loading: true });
 
-    let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&apiKey=8feb806080484cccb724b62ba97069df
+    let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&apiKey=${this.props.apiKey}
        &pageSize=${this.props.pageSize}&category=${this.props.category}&page=${this.state.page}`;
     //working url let url =
     //   `https://newsapi.org/v2/top-headlines?country=in&apiKey=8feb806080484cccb724b62ba97069df
@@ -41,6 +44,7 @@ export class News extends Component {
       res.json().then((result) => {
         console.log(result.articles.length);
         console.log(result.articles)
+        this.props.setProgress(40);
         this.setState({
           articles: result.articles,
           totalResults: result.totalResults,
@@ -48,6 +52,7 @@ export class News extends Component {
         });
       });
     });
+    this.props.setProgress(100)
   }
 
   componentDidMount() {
@@ -57,7 +62,7 @@ export class News extends Component {
   fetchMoreData = async () => {
   
       this.setState({page:this.state.page+1});
-      let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&apiKey=8feb806080484cccb724b62ba97069df
+      let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&apiKey=${this.props.apiKey}
        &pageSize=${this.props.pageSize}&category=${this.props.category}&page=${this.state.page}`;
     
     fetch(url).then((res) => {
@@ -77,9 +82,9 @@ export class News extends Component {
   render() {
     return (
       <>
-       
-          <h1 style={{ margin: "56px" }} className="text-center">
-            NEWSMAN - Top Headlines
+      <div style={{backgroundColor:"#212529"}}>
+          <h1 style={{ margin: "0px",color:"#ffffff",paddingTop:"40px",paddingBottom:"20px" }} className="text-center" >
+            Top Headlines - {this.props.category.charAt(0).toUpperCase() + this.props.category.slice(1)}
           </h1>
          {/* {this.state.loading && <Spinner />} */}
           <InfiniteScroll
@@ -88,8 +93,8 @@ export class News extends Component {
             hasMore={this.state.lengthh !== this.state.totalResults}
             loader={<Spinner/>}
             > 
-          <div className="container">
-          <div className="row">
+          <div className="container" style={{backgroundColor:"#212529"}}>
+          <div className="row" style={{backgroundColor:"#212529"}}>
             {this.state.articles
               ? this.state.articles.map((element) => (
                   <div className="col-md-4" key={element.url}>
@@ -107,7 +112,7 @@ export class News extends Component {
           </div>
           </div>
           </InfiniteScroll>
-        
+          </div>
 
         {/* <div className="container d-flex justify-content-between">
           <button
